@@ -10,7 +10,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo "Skipping Docker install."
 else
   echo "Installing Docker..."
-  sh install.sh
+  bash install.sh
 fi
 
-sh start_zabbix.sh
+bash start_zabbix.sh
