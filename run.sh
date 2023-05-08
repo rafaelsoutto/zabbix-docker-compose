@@ -4,8 +4,6 @@ set -e
 
 cd zabbix
 
-source variables.sh
-
 read -p "Do you want to skip Docker install? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
