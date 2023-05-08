@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export COMPOSE_FILE=zabbix/docker-compose.yml
 export MYSQL_DATABASE=zabbix
 export MYSQL_USER=zabbix
 export MYSQL_PASSWORD=zabbix
