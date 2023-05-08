@@ -2,6 +2,8 @@
 
 set -e
 
+source env-variables.sh
+
 sudo docker-compose pull
 sudo docker-compose up --env-file .env -d
 
