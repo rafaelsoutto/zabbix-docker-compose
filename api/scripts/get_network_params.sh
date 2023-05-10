@@ -15,8 +15,8 @@ function deploy_zabbix_agent() {
       #   sshpass -p "windows" ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no windows@"$ip" "bash ~/zabbix_agent.sh"
 
       if scp -i api/key.pem -o ConnectTimeout=10 -o StrictHostKeyChecking=no api/zabbix_agent.sh ubuntu@${ip}:~ ; then
-        "sent zabbix file to ${ip}"
-        "Running zabbix_agent.sh on ${ip}"
+        echo "sent zabbix file to ${ip}"
+        echo "Running zabbix_agent.sh on ${ip}"
         ssh -i api/key.pem -o ConnectTimeout=10 -o StrictHostKeyChecking=no ubuntu@"$ip" "bash ~/zabbix_agent.sh"
         echo "successfully installed zabbix agent on ${ip}"
       fi
