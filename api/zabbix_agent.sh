@@ -17,17 +17,17 @@ done
 
 echo "statinging"
 
-sudo systemctl stop zabbix-agent
-sudo apt-get remove zabbix-agent
+# sudo systemctl stop zabbix-agent
+# sudo apt-get remove zabbix-agent
 
-sudo apt update
-wget https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
-sudo dpkg-reconfigure -i zabbix-release_5.0-1+focal_all.deb
-sudo apt install -y zabbix-agent
+# sudo apt update
+# wget https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
+# sudo dpkg-reconfigure -i zabbix-release_5.0-1+focal_all.deb
+# sudo apt install -y zabbix-agent
 
-sudo apt update
+# sudo apt update
 
-sudo apt install -y net-tools
+# sudo apt install -y net-tools
 interface=$(ip addr | awk '/state UP/ {print $2; exit}')
 echo $interface
 ipconfig=$(ifconfig "${interface%?}")
@@ -40,8 +40,8 @@ sudo sed -i "s/^Server=.*$/Server=$ZABBIX_SERVER_IP,127.0.0.1/g" /etc/zabbix/zab
 sudo sed -i "s/^ServerActive=.*$/ServerActive=$ZABBIX_SERVER_IP,127.0.0.1/g" /etc/zabbix/zabbix_agentd.conf
 sudo sed -i "s/^Hostname=.*$/Hostname=$local_ip_address/g" /etc/zabbix/zabbix_agentd.conf
 
-sudo systemctl restart zabbix-agent
-sudo systemctl status zabbix-agent
+# sudo systemctl restart zabbix-agent
+# sudo systemctl status zabbix-agent
 
 
 curl -X POST -H 'Content-Type: application/json' -d '{
