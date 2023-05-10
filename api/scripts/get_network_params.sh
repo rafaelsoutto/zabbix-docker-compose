@@ -3,28 +3,20 @@
 function deploy_zabbix_agent() {
     for ip in "$@"; do
 
-      echo "trying to SSH into $ip"
-
-        # Try SSH with login credentials ubuntu/ubuntu
-        sshpass -p 'ubuntu' ssh ubuntu@$ip "echo 'SSH connection with login credentials ubuntu/ubuntu successful' && \
-            scp ../zabbix_agent.sh ubuntu@$ip:/home/ubuntu && \
-            ssh ubuntu@$ip 'sudo chmod +x /home/ubuntu/zabbix_agent.sh && /home/ubuntu/zabbix_agent.sh' && exit" \
-            && continue
-
-        # Try SSH with login credentials windows/windows
-        sshpass -p 'windows' ssh windows@$ip "echo 'SSH connection with login credentials windows/windows successful' && \
-            scp /path/to/zabbix_agent.sh windows@$ip:/home/windows && \
-            ssh windows@$ip 'sudo chmod +x /home/windows/zabbix_agent.sh && /home/windows/zabbix_agent.sh' && exit" \
-            && continue
-
-        # Try SSH with key.pem certificate
-        ssh -i "../key.pem" ubuntu@$ip "echo 'SSH connection with key.pem certificate successful' && \
-             scp ../zabbix_agent.sh ubuntu@$ip:/home/ubuntu && \
-             ssh ubuntu@$ip 'sudo chmod +x /home/ubuntu/zabbix_agent.sh && /home/ubuntu/zabbix_agent.sh' && exit" \
-            && continue
-
-        echo "Could not deploy zabbix agent to $ip"
-    done
+    if nc $ip 22; then
+      if sshpass -p "ubuntu" ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "echo Connection successful"; then
+        sshpass -p "ubuntu" scp -o StrictHostKeyChecking=no ./zabbix_agent.sh ubuntu@"$ip":~
+        sshpass -p "ubuntu" ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "bash ~/zabbix_agent.sh"
+      elif sshpass -p "windows" ssh -o StrictHostKeyChecking=no windows@"$ip" "echo Connection successful"; then
+        sshpass -p "windows" scp -o StrictHostKeyChecking=no ./zabbix_agent.sh windows@"$ip":~
+        sshpass -p "windows" ssh -o StrictHostKeyChecking=no windows@"$ip" "bash ~/zabbix_agent.sh"
+      elif ssh -i api/key.pem -o StrictHostKeyChecking=no ubuntu@"$ip" "echo Connection successful"; then
+        scp -i api/key.pem -o StrictHostKeyChecking=no ./zabbix_agent.sh ubuntu@"$ip":~
+        ssh -i api/key.pem -o StrictHostKeyChecking=no ubuntu@"$ip" "bash ~/zabbix_agent.sh"
+      fi
+  else
+    echo "Port 22 is not open on $ip"
+  fi
 }
 
 # Get the IP address and netmask of the first active network interface
