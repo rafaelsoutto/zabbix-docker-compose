@@ -18,6 +18,7 @@ done
 echo "statinging"
 
 sudo systemctl stop zabbix-agent
+sudo apt-get remove zabbix-agent
 
 sudo apt update
 wget https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
