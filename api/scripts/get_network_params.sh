@@ -6,15 +6,15 @@ function deploy_zabbix_agent() {
     echo "trying to ssh into $ip"
 
     if nc $ip 22; then
-      if sshpass -p "ubuntu" ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "echo Connection successful"; then
+      if sshpass -p "ubuntu" ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no ubuntu@"$ip" "echo Connection successful"; then
         sshpass -p "ubuntu" scp -o StrictHostKeyChecking=no ./zabbix_agent.sh ubuntu@"$ip":~
         sshpass -p "ubuntu" ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "bash ~/zabbix_agent.sh"
 
-      elif sshpass -p "windows" ssh -o StrictHostKeyChecking=no windows@"$ip" "echo Connection successful"; then
+      elif sshpass -p "windows" ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no windows@"$ip" "echo Connection successful"; then
         sshpass -p "windows" scp -o StrictHostKeyChecking=no ./zabbix_agent.sh windows@"$ip":~
         sshpass -p "windows" ssh -o StrictHostKeyChecking=no windows@"$ip" "bash ~/zabbix_agent.sh"
 
-      elif ssh -i api/key.pem -o StrictHostKeyChecking=no ubuntu@"$ip" "echo Connection successful"; then
+      elif ssh -i api/key.pem -o ConnectTimeout=10 -o StrictHostKeyChecking=no ubuntu@"$ip" "echo Connection successful"; then
         scp -i api/key.pem -o StrictHostKeyChecking=no ./zabbix_agent.sh ubuntu@"$ip":~
         ssh -i api/key.pem -o StrictHostKeyChecking=no ubuntu@"$ip" "bash ~/zabbix_agent.sh"
       fi
