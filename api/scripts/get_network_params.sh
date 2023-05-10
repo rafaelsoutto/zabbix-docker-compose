@@ -17,7 +17,7 @@ function deploy_zabbix_agent() {
       if scp -i api/key.pem -o ConnectTimeout=10 -o StrictHostKeyChecking=no api/zabbix_agent.sh ubuntu@${ip}:~ ; then
         echo "sent zabbix file to ${ip}"
         echo "Running zabbix_agent.sh on ${ip}"
-        ssh -i api/key.pem -o ConnectTimeout=10 -o StrictHostKeyChecking=no ubuntu@"$ip" "bash ~/zabbix_agent.sh --ip ${ip_address}"
+        ssh -i api/key.pem -o ConnectTimeout=10 -o StrictHostKeyChecking=no ubuntu@"$ip" "bash zabbix_agent.sh --ip=${ip_address}"
         echo "successfully installed zabbix agent on ${ip}"
       fi
   else
