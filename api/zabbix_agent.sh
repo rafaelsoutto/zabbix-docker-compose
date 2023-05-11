@@ -17,17 +17,11 @@ done
 
 echo "statinging"
 
-sudo systemctl stop zabbix-agent
-sudo apt-get remove zabbix-agent
-
 sudo apt update
-wget https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
-sudo dpkg-reconfigure -i zabbix-release_5.0-1+focal_all.deb
 sudo apt install -y zabbix-agent
+sudo apt install -y net-tools
 
 sudo apt update
-
-sudo apt install -y net-tools
 interface=$(ip addr | awk '/state UP/ {print $2; exit}')
 echo $interface
 ipconfig=$(ifconfig "${interface%?}")
@@ -77,4 +71,4 @@ curl -X POST -H 'Content-Type: application/json' -d '{
     },
     "auth": "2a937615efa5ca80e0e4bb5fed91391c8a1b0e99884a78ad0ee9ce400e7c6bec",
     "id": "1"
-}' http://3.95.188.21:8080/api_jsonrpc.php
+}' http://44.212.68.40:8080/api_jsonrpc.php
