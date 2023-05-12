@@ -17,8 +17,8 @@ done
 
 echo "statinging"
 
-sudo apt update
-sudo apt install -y zabbix-agent
+sudo apt update -y
+sudo apt install -y zabbix-agent --assume-yes
 sudo apt install -y net-tools
 
 sudo apt update
@@ -36,7 +36,6 @@ sudo sed -i "s/^Hostname=.*$/Hostname=$local_ip_address/g" /etc/zabbix/zabbix_ag
 
 sudo systemctl restart zabbix-agent
 sudo systemctl status zabbix-agent
-
 
 curl -X POST -H 'Content-Type: application/json' -d '{
     "jsonrpc": "2.0",
@@ -71,4 +70,4 @@ curl -X POST -H 'Content-Type: application/json' -d '{
     },
     "auth": "2a937615efa5ca80e0e4bb5fed91391c8a1b0e99884a78ad0ee9ce400e7c6bec",
     "id": "1"
-}' http://44.212.68.40:8080/api_jsonrpc.php
+}' http://${ZABBIX_SERVER_IP}:8080/api_jsonrpc.php

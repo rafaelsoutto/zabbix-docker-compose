@@ -6,20 +6,24 @@ function deploy_zabbix_agent() {
     echo "trying to ssh into $ip"
 
     if nc -w 1 $ip 22; then
-      # if sshpass -p "ubuntu" ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no ubuntu@"$ip" "echo Connection successful"; then
-      #   sshpass -p "ubuntu" scp -o ConnectTimeout=10 -o StrictHostKeyChecking=no ./zabbix_agent.sh ubuntu@"$ip":~
-      #   sshpass -p "ubuntu" ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no ubuntu@"$ip" "bash ~/zabbix_agent.sh"
+      if sshpass -p "ubuntu" scp -o ConnectTimeout=10 -o StrictHostKeyChecking=no api/zabbix_agent.sh ubuntu@${ip}:~; then
+        echo "sent zabbix file to ${ip}"
+        echo "Running zabbix_agent.sh on ${ip}"
+        sshpass -p "ubuntu" ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no ubuntu@"$ip" "bash ~/zabbix_agent.sh"
+        echo "successfully installed zabbix agent on ${ip}"
 
-      # elif sshpass -p "windows" ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no windows@"$ip" "echo Connection successful"; then
-      #   sshpass -p "windows" scp -o ConnectTimeout=10 -o StrictHostKeyChecking=no ./zabbix_agent.sh windows@"$ip":~
-      #   sshpass -p "windows" ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no windows@"$ip" "bash ~/zabbix_agent.sh"
+      elif sshpass -p "windows" scp -o ConnectTimeout=10 -o StrictHostKeyChecking=no api/zabbix_agent.sh windows@${ip}:~; then
+        echo "sent zabbix file to ${ip}"
+        echo "Running zabbix_agent.sh on ${ip}"
+        sshpass -p "windows" ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no windows@"$ip" "bash ~/zabbix_agent.sh"
+        echo "successfully installed zabbix agent on ${ip}"
 
-      if scp -i api/key.pem -o ConnectTimeout=10 -o StrictHostKeyChecking=no api/zabbix_agent.sh ubuntu@${ip}:~ ; then
+      elif scp -i api/key.pem -o ConnectTimeout=10 -o StrictHostKeyChecking=no api/zabbix_agent.sh ubuntu@${ip}:~ ; then
         echo "sent zabbix file to ${ip}"
         echo "Running zabbix_agent.sh on ${ip}"
         ssh -i api/key.pem -o ConnectTimeout=10 -o StrictHostKeyChecking=no ubuntu@"$ip" "bash zabbix_agent.sh --ip=${ip_address}"
-        echo "successfully installed zabbix agent on ${ip}"
       fi
+
   else
     echo "Port 22 is not open on $ip"
   fi
