@@ -1,19 +1,6 @@
 #!/bin/bash
 
-# parse command-line arguments
-while [[ $# -gt 0 ]]
-do
-    case "$1" in
-        --ip=*)
-            ZABBIX_SERVER_IP="${1#*=}"
-            shift
-            ;;
-        *)
-            echo "$(tput setaf 1)ERROR: Invalid argument: $1$(tput sgr0)"
-            exit 1
-            ;;
-    esac
-done
+ZABBIX_SERVER_IP=(meu zabbix ip)
 
 echo "statinging"
 
