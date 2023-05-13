@@ -68,6 +68,6 @@ curl -X POST -H 'Content-Type: application/json' -d '{
             "location_lon": "24.22067"
         }
     },
-    "auth": "a8c283eff692a7abcfc77748c53a8a7140e979b3da86ea3a3042ee615bec36f4",
+    "auth": "7e9c0d525e728d02f19cb6c2f75761a44af2fa5e802a051c5119ba226951000c",
     "id": "1"
 }' http://${ZABBIX_SERVER_IP}:8080/api_jsonrpc.php
