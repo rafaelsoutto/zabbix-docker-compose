@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ZABBIX_SERVER_IP=(meu zabbix ip)
+ZABBIX_SERVER_IP=3.83.160.132
 
 echo "statinging"
 
@@ -22,7 +22,6 @@ sudo sed -i "s/^ServerActive=.*$/ServerActive=$ZABBIX_SERVER_IP,127.0.0.1/g" /et
 sudo sed -i "s/^Hostname=.*$/Hostname=$local_ip_address/g" /etc/zabbix/zabbix_agentd.conf
 
 sudo systemctl restart zabbix-agent
-sudo systemctl status zabbix-agent
 
 curl -X POST -H 'Content-Type: application/json' -d '{
     "jsonrpc": "2.0",
